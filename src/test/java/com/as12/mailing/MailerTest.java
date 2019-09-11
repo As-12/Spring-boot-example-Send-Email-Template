@@ -7,6 +7,7 @@ import com.icegreen.greenmail.util.GreenMailUtil;
 import com.icegreen.greenmail.util.ServerSetup;
 import com.icegreen.greenmail.util.ServerSetupTest;
 
+import org.apache.velocity.app.VelocityEngine;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -33,7 +34,10 @@ public class MailerTest {
 	
 	@Autowired
     private Mailer emailService;
-
+	
+	@Autowired 
+	private VelocityEngine velocityEngine;
+	
 	private GreenMail greenMail;
 
 	@Before
@@ -55,7 +59,13 @@ public class MailerTest {
 	@Test
 	public void testSend() throws MessagingException, InterruptedException {
 		
-	    emailService.sendMail();
+		Mail message = new EmailBuilder(velocityEngine).Template(EmailBuilder.emailTemplate.DEFAULT)
+				.Subject("Hello World")
+				.To("John")
+				.From("Corner")
+				.createMail();
+		
+	    emailService.sendMail(message);
 	    System.out.print(GreenMailUtil.getBody(greenMail.getReceivedMessages()[0]));
 	    //assertEquals("some body", GreenMailUtil.getBody(greenMail.getReceivedMessages()[0]));
 	}

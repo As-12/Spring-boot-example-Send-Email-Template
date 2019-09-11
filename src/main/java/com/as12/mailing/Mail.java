@@ -1,6 +1,6 @@
 package com.as12.mailing;
 
-public class Email {
+public class Mail {
 		private String mailFrom;
 	 
 		private String mailTo;
@@ -17,7 +17,7 @@ public class Email {
 	 
 		private String contentType;
 
-		public Email() {
+		public Mail() {
 			this.contentType = "text/html";
 		}
 	 

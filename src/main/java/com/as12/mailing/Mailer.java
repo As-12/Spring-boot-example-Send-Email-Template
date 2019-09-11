@@ -1,6 +1,5 @@
 package com.as12.mailing;
 
-import org.springframework.context.annotation.Bean;
 import java.io.StringWriter;
 
 import javax.mail.MessagingException;
@@ -24,7 +23,7 @@ public class Mailer {
 	private VelocityEngine velocityEngine;
  
  
-	public void sendMail() {
+	public void sendMail(Mail message) {
 		
 		try {
 			MimeMessage emailMessage = mailSender.createMimeMessage();
@@ -33,14 +32,14 @@ public class Mailer {
 			mailBuilder.setTo("to@localhost.com");
 			mailBuilder.setSubject("Hello");
 			
-			Template template = velocityEngine.getTemplate("./templates/mail-template.html");
+			//Template template = velocityEngine.getTemplate("./templates/mail-template.html");
 			 
-			VelocityContext velocityContext = new VelocityContext();
-			StringWriter stringWriter = new StringWriter();
+			//VelocityContext velocityContext = new VelocityContext();
+			//StringWriter stringWriter = new StringWriter();
 			 
-			template.merge(velocityContext, stringWriter);
+			//template.merge(velocityContext, stringWriter);
 	 
-			mailBuilder.setText(stringWriter.toString());
+			mailBuilder.setText(message.getMailContent());
 			
 			mailSender.send(emailMessage);
 			

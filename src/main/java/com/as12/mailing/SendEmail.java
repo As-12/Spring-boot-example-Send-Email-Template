@@ -13,7 +13,7 @@ public class SendEmail {
 	  CommandLineRunner initDatabase(Mailer sendMail) {
 	    return args -> {
 	      System.out.print("Hello World");
-	      sendMail.sendMail();
+	     // sendMail.sendMail();
 	    };
 	  }
 }
