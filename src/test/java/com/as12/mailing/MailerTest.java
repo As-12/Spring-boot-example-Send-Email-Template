@@ -35,16 +35,13 @@ public class MailerTest {
 	@Autowired
     private Mailer emailService;
 	
-	@Autowired 
-	private VelocityEngine velocityEngine;
-	
 	private GreenMail greenMail;
 
 	@Before
 	public void startMailServer() throws InterruptedException {
 		greenMail = new GreenMail(
 			      new ServerSetup[] {
-			          new ServerSetup(3025, "127.0.0.1", ServerSetup.PROTOCOL_SMTP)
+			          new ServerSetup(3025, "localhost", ServerSetup.PROTOCOL_SMTP)
 			      }
 			  );
 		greenMail.start();
@@ -59,15 +56,18 @@ public class MailerTest {
 	@Test
 	public void testSend() throws MessagingException, InterruptedException {
 		
-		Mail message = new EmailBuilder(velocityEngine).Template(EmailBuilder.emailTemplate.DEFAULT)
-				.Subject("Hello World")
-				.To("John")
-				.From("Corner")
+		//String aLongText = "He determined to drop his litigation with the monastry, and relinguish his claims to the wood-cuting and fishery rihgts at once. He was the more ready to do this becuase the rights had becom much less valuable, and he had indeed the vaguest idea where the wood and river in quedtion were.";
+		String aLongText = "Hello";
+		Mail message = new EmailBuilder().Template("sample.txt")
+				.Subject("Hello")
+				.To("Sam@gmail.com")
+				.From("John@gmail.com")
+				.AddContext("content", aLongText)
 				.createMail();
 		
-	    emailService.sendMail(message);
+	    emailService.sendMail(message, true);
 	    System.out.print(GreenMailUtil.getBody(greenMail.getReceivedMessages()[0]));
-	    //assertEquals("some body", GreenMailUtil.getBody(greenMail.getReceivedMessages()[0]));
+	    assertEquals(aLongText, GreenMailUtil.getBody(greenMail.getReceivedMessages()[0]));
 	}
     
 }

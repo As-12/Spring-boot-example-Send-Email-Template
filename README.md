@@ -7,3 +7,9 @@ The code uses a Apache Velocity as template engine to construct HTML email and s
 
 The project serves as a quick code snippet to be used in other larger projects. Any contribution is welcome! 
 
+
+# TO-DO
+
+- Fix Greenmail test to support MIME multi-part message.
+- Find a way to test with real gmail Server
+
