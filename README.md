@@ -12,4 +12,5 @@ The project serves as a quick code snippet to be used in other larger projects. 
 
 - Fix Greenmail test to support MIME multi-part message.
 - Find a way to test with real gmail Server
-
+- Add Unit Test
+- Documentation
