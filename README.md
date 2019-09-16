@@ -1,16 +1,30 @@
-# This project is a Work-in-progress
+# Spring Boot Example
 
-# Spring Boot Java Mail Sender with Template
+## Sending Email with Java using HTML template
 
-This is a quick template project for email sending system using Spring-Boot.
-The code uses a Apache Velocity as template engine to construct HTML email and send it over to multiple receipients. 
+An example Spring-boot project using Java Mail, Apache Velocity, and HTML template to generate a beautiful templated email. The project serves as a quick boilerplate to be used in other larger projects. Any contribution is welcome by opening a pull request.
 
-The project serves as a quick code snippet to be used in other larger projects. Any contribution is welcome! 
+![Sample templated Image](https://user-images.githubusercontent.com/15963/29055956-8dcca38e-7bb4-11e7-8a86-7b056ebf673d.png)
 
+## HTML Template
 
-# TO-DO
+The HTML Template in this example is based from [this](https://github.com/leemunroe/responsive-html-email-template).
 
+## TO-DO
+
+### Unit Test
 - Fix Greenmail test to support MIME multi-part message.
-- Find a way to test with real gmail Server
 - Add Unit Test
-- Documentation
+
+### Gmail
+- Configure this with gmail
+
+### Code Quality
+- Add JavaDoc
+- Tidy up
+- Polish the Email Builder and Email class
+- Add Continous Integration
+
+# License
+
+MIT License
