@@ -1,38 +1,23 @@
 package com.as12.mailing;
 
-
-import com.icegreen.greenmail.junit.GreenMailRule;
 import com.icegreen.greenmail.util.GreenMail;
-import com.icegreen.greenmail.util.GreenMailUtil;
 import com.icegreen.greenmail.util.ServerSetup;
-import com.icegreen.greenmail.util.ServerSetupTest;
-
-import org.apache.velocity.app.VelocityEngine;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExternalResource;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
-
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import static org.junit.Assert.assertEquals;
-
-import java.util.concurrent.TimeUnit;
-
+import java.io.IOException;	
+import javax.mail.BodyPart;
+import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 
 @SpringBootTest
-@ActiveProfiles("test")
-@RunWith(SpringRunner.class)
 public class MailerTest {
 	
-	@Autowired
     private Mailer emailService;
 	
 	private GreenMail greenMail;
@@ -45,6 +30,13 @@ public class MailerTest {
 			      }
 			  );
 		greenMail.start();
+		
+		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setHost("localhost");
+        mailSender.setPort(3025);
+        mailSender.setProtocol("smtp");
+
+		emailService = new Mailer(mailSender);
 	}
 	
 	@After
@@ -54,9 +46,8 @@ public class MailerTest {
 	
 
 	@Test
-	public void testSend() throws MessagingException, InterruptedException {
+	public void testSendWithTemplate() throws MessagingException, InterruptedException, IOException {
 		
-		//String aLongText = "He determined to drop his litigation with the monastry, and relinguish his claims to the wood-cuting and fishery rihgts at once. He was the more ready to do this becuase the rights had becom much less valuable, and he had indeed the vaguest idea where the wood and river in quedtion were.";
 		String aLongText = "Hello";
 		Mail message = new EmailBuilder().Template("sample.txt")
 				.Subject("Hello")
@@ -66,9 +57,48 @@ public class MailerTest {
 				.createMail();
 		
 	    emailService.sendMail(message, true);
-	    System.out.print(GreenMailUtil.getBody(greenMail.getReceivedMessages()[0]));
-	    assertEquals(aLongText, GreenMailUtil.getBody(greenMail.getReceivedMessages()[0]));
+	    Message msg = greenMail.getReceivedMessages()[0];
+	    
+	    String body = getTextFromMessage(msg);
+	    body = body.replace("\n", "").replace("\r", "");
+	    
+	    assertEquals(aLongText, body);
 	}
     
+	
+	/** 
+	 * Utility code to translate MIME multipart message to String
+	 * Source: https://stackoverflow.com/questions/11240368/how-to-read-text-inside-body-of-mail-using-javax-mail 
+	 * **/
+	
+	private String getTextFromMessage(Message message) throws MessagingException, IOException {
+	    String result = "";
+	    if (message.isMimeType("text/plain")) {
+	        result = message.getContent().toString();
+	    } else if (message.isMimeType("multipart/*")) {
+	        MimeMultipart mimeMultipart = (MimeMultipart) message.getContent();
+	        result = getTextFromMimeMultipart(mimeMultipart);
+	    }
+	    return result;
+	}
+
+	private String getTextFromMimeMultipart(
+	        MimeMultipart mimeMultipart)  throws MessagingException, IOException{
+	    String result = "";
+	    int count = mimeMultipart.getCount();
+	    for (int i = 0; i < count; i++) {
+	        BodyPart bodyPart = mimeMultipart.getBodyPart(i);
+	        if (bodyPart.isMimeType("text/plain")) {
+	            result = result + "\n" + bodyPart.getContent();
+	            break; // without break same text appears twice in my tests
+	        } else if (bodyPart.isMimeType("text/html")) {
+	            String html = (String) bodyPart.getContent();
+	            result = result + "\n" + org.jsoup.Jsoup.parse(html).text();
+	        } else if (bodyPart.getContent() instanceof MimeMultipart){
+	            result = result + getTextFromMimeMultipart((MimeMultipart)bodyPart.getContent());
+	        }
+	    }
+	    return result;
+	}
 }
 

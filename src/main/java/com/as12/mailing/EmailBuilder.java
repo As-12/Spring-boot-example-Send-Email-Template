@@ -61,7 +61,7 @@ public class EmailBuilder {
 	public Mail createMail() throws IllegalArgumentException { 
 
 		//Select Template
-		Template templateEngine = velocityEngine.getTemplate("./templates/" + this.template);
+		Template templateEngine = velocityEngine.getTemplate("templates/" + this.template);
 		
 		//Apply template
 		StringWriter stringWriter = new StringWriter();		

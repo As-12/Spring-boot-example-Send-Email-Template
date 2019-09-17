@@ -12,8 +12,16 @@ public class SendEmail {
 	@Bean
 	  CommandLineRunner initDatabase(Mailer sendMail) {
 	    return args -> {
-	      System.out.print("Hello World");
-	     // sendMail.sendMail();
+	      Mail mail = new EmailBuilder()
+	    		  .From("username@gmail.com") // For gmail, this field is ignored.
+	    		  .To("Sue@gmail.com")
+	    		  .Template("mail-template.html")
+	    		  .AddContext("subject", "Dear Sue")
+	    		  .AddContext("content", "Hello World!")
+	    		  .Subject("Hello")
+	    		  .createMail();
+	      
+	      sendMail.sendMail(mail,true);
 	    };
 	  }
 }

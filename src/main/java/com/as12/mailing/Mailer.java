@@ -11,8 +11,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class Mailer {
 	
-	@Autowired
+	
 	private JavaMailSender mailSender;
+	
+	@Autowired
+	Mailer(JavaMailSender javamailSender) {
+		this.mailSender = javamailSender;
+	}
+	
 	
 	public void sendMail(Mail message, boolean isHtml) throws MessagingException {
 		

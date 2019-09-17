@@ -2,7 +2,6 @@ package com.as12.mailing;
 
 import java.util.Properties;
 
-import org.apache.velocity.app.VelocityEngine;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,18 +12,51 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 public class MailerConfig {
 
 	
-	@Value("${spring.mail.host:127.0.0.1}")
-	private String mailServerHost;
-	
-	@Value("${spring.mail.port:25}")
-	private int mailServerPort;
+	@Value("${mail.protocol}")
+    private String protocol;
+    @Value("${mail.host}")
+    private String host;
+    @Value("${mail.port}")
+    private int port;
+    @Value("${mail.smtp.socketFactory.port}")
+    private int socketPort;
+    @Value("${mail.smtp.auth}")
+    private boolean auth;
+    @Value("${mail.smtp.starttls.enable}")
+    private boolean starttls;
+    @Value("${mail.smtp.starttls.required}")
+    private boolean startlls_required;
+    @Value("${mail.smtp.debug}")
+    private boolean debug;
+    @Value("${mail.smtp.socketFactory.fallback}")
+    private boolean fallback;
+    @Value("${mail.from}")
+    private String from;
+    @Value("${mail.username}")
+    private String username;
+    @Value("${mail.password}")
+    private String password;
 	
 	@Bean
 	public JavaMailSender javaMailSender() {
-		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-		mailSender.setHost(mailServerHost);
-		mailSender.setPort(mailServerPort);
-		mailSender.setProtocol("smtp");
+		
+		Properties mailProperties = new Properties();
+        mailProperties.put("mail.smtp.auth", auth);
+        mailProperties.put("mail.smtp.starttls.enable", starttls);
+        mailProperties.put("mail.smtp.starttls.required", startlls_required);
+        mailProperties.put("mail.smtp.socketFactory.port", socketPort);
+        mailProperties.put("mail.smtp.debug", debug);
+        mailProperties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        mailProperties.put("mail.smtp.socketFactory.fallback", fallback);
+        
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setJavaMailProperties(mailProperties);
+        mailSender.setHost(host);
+        mailSender.setPort(port);
+        mailSender.setProtocol(protocol);
+        mailSender.setUsername(username);
+        mailSender.setPassword(password);
+        
 		return mailSender;
 	}
 
