@@ -8,6 +8,6 @@ jdk:
  - openjdk9
 
 after_success:
-  - bash <(curl -s https://codecov.io/bash) -t d3621f6f-27e7-411a-a73a-e5c667545f92
+  - bash <(curl -s https://codecov.io/bash)
 
 
