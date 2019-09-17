@@ -2,8 +2,6 @@ language: java
 
 dist: trusty
 
-script: "mvn cobertura:cobertura"
-
 jdk:
  - openjdk9
 
