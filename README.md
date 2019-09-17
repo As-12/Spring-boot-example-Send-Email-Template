@@ -1,5 +1,8 @@
 # Spring Boot Example
 
+[![Build Status](https://travis-ci.com/As-12/Spring-boot-example-Send-Email-Template.svg?branch=master)](https://travis-ci.com/As-12/Spring-boot-example-Send-Email-Template)
+[![codecov](https://codecov.io/gh/As-12/Spring-boot-example-Send-Email-Template/branch/master/graph/badge.svg)](https://codecov.io/gh/As-12/Spring-boot-example-Send-Email-Template)
+
 ## Sending Email with Java using HTML template
 
 An example Spring-boot project using Java Mail, Apache Velocity, and HTML template to generate a beautiful templated email. The project serves as a quick boilerplate to be used in other larger projects. Any contribution is welcome by opening a pull request.
