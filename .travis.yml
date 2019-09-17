@@ -1,9 +1,9 @@
 language: java
-sudo: false
 
-script: "mvn cobertura:cobertura"
+jdk:
+ - oraclejdk8
 
 after_success:
-  - ./mvnw clean install
   - bash <(curl -s https://codecov.io/bash)
+
 
