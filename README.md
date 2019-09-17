@@ -27,4 +27,4 @@ The HTML Template in this example is based from [this](https://github.com/leemun
 
 # License
 
-MIT License
+[MIT License](https://opensource.org/licenses/MIT)
