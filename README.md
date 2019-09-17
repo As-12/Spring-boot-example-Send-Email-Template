@@ -14,9 +14,6 @@ The example configures the mailer to send email over Gmail's SMTP protocol. User
 
 The HTML Template in this example is based from [this](https://github.com/leemunroe/responsive-html-email-template).
 
-
-### Todo
-- Add Continous Integration + Code coverage
 # License
 
 [MIT License](https://opensource.org/licenses/MIT)
