@@ -1,6 +1,7 @@
 package com.as12.mailing;
 
 
+import com.as12.services.Mailer;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +15,7 @@ public class SendEmail {
 	    return args -> {
 	      Mail mail = new EmailBuilder()
 	    		  .From("username@gmail.com") // For gmail, this field is ignored.
-	    		  .To("Sue@gmail.com")
+	    		  .To("zoltanrebellion@gmail.com")
 	    		  .Template("mail-template.html")
 	    		  .AddContext("subject", "Dear Sue")
 	    		  .AddContext("content", "Hello World!")
