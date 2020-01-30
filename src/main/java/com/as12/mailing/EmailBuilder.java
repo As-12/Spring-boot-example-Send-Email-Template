@@ -58,6 +58,10 @@ public class EmailBuilder {
 		velocityContext.put(key, value);
 		return this;
 	}
+	public EmailBuilder AddContext(String key, Object value) {
+		velocityContext.put(key, value);
+		return this;
+	}
 	public Mail createMail() throws IllegalArgumentException { 
 
 		//Select Template

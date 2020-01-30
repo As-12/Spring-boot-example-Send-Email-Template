@@ -1,5 +1,6 @@
 package com.as12.mailing;
 
+import com.as12.services.Mailer;
 import com.icegreen.greenmail.util.GreenMail;
 import com.icegreen.greenmail.util.ServerSetup;
 import org.junit.After;
