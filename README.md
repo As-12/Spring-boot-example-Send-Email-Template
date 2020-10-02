@@ -1,7 +1,7 @@
-# Spring Boot Example
-
 [![Build Status](https://travis-ci.com/As-12/Spring-boot-example-Send-Email-Template.svg?branch=master)](https://travis-ci.com/As-12/Spring-boot-example-Send-Email-Template)
 [![codecov](https://codecov.io/gh/As-12/Spring-boot-example-Send-Email-Template/branch/master/graph/badge.svg)](https://codecov.io/gh/As-12/Spring-boot-example-Send-Email-Template)
+
+# Spring Boot Example
 
 ## Sending Email with Java using HTML template
 
