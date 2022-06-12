@@ -1,6 +1,8 @@
 package com.as12.mailing;
 
-import com.as12.services.Mailer;
+import com.as12.builders.MailBuilder;
+import com.as12.models.Mail;
+import com.as12.services.EmailService;
 import com.icegreen.greenmail.util.GreenMail;
 import com.icegreen.greenmail.util.ServerSetup;
 import org.junit.After;
@@ -17,10 +19,9 @@ import javax.mail.internet.MimeMultipart;
 
 
 @SpringBootTest
-public class MailerTest {
+public class EmailServiceTest {
 	
-    private Mailer emailService;
-	
+    private EmailService emailService;
 	private GreenMail greenMail;
 
 	@Before
@@ -31,47 +32,38 @@ public class MailerTest {
 			      }
 			  );
 		greenMail.start();
-		
-		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+		final JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost("localhost");
         mailSender.setPort(3025);
         mailSender.setProtocol("smtp");
-
-		emailService = new Mailer(mailSender);
+		emailService = new EmailService(mailSender);
 	}
 	
 	@After
 	public void stopMailServer() {
 		greenMail.stop();
 	}
-	
 
 	@Test
 	public void testSendWithTemplate() throws MessagingException, InterruptedException, IOException {
-		
-		String aLongText = "Hello";
-		Mail message = new EmailBuilder().Template("sample.txt")
+		final String aLongText = "Hello";
+		final Mail message = new MailBuilder().Template("sample.txt")
 				.Subject("Hello")
 				.To("Sam@gmail.com")
 				.From("John@gmail.com")
 				.AddContext("content", aLongText)
 				.createMail();
-		
-	    emailService.sendMail(message, true);
+	    emailService.sendHTMLEmail(message);
 	    Message msg = greenMail.getReceivedMessages()[0];
-	    
 	    String body = getTextFromMessage(msg);
 	    body = body.replace("\n", "").replace("\r", "");
-	    
 	    assertEquals(aLongText, body);
 	}
-    
 	
-	/** 
+	/*
 	 * Utility code to translate MIME multipart message to String
 	 * Source: https://stackoverflow.com/questions/11240368/how-to-read-text-inside-body-of-mail-using-javax-mail 
-	 * **/
-	
+	 */
 	private String getTextFromMessage(Message message) throws MessagingException, IOException {
 	    String result = "";
 	    if (message.isMimeType("text/plain")) {
