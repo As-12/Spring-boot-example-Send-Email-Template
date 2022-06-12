@@ -11,6 +11,16 @@ The example configures the mailer to send email over Gmail's SMTP protocol. User
 
 The HTML Template in this example is based from [this](https://github.com/leemunroe/responsive-html-email-template).
 
+## Quick Start
+
+1. This is a simple maven project you can import directly to your Java IDE of choice.
+2. To run an example,
+	- Change mailing recipient in `application.properties`
+	- Update sender credentials over on `com.as12.config.EmailConfig`
+		- For Gmail, Google now requires 2 factor-authentication and App password. See https://support.google.com/accounts/answer/185833
+	- Run your application once the properties are configured
+	- Navigate to `http://localhost:8080/test` to send an example email
+
 # License
 
 [MIT License](https://opensource.org/licenses/MIT)
